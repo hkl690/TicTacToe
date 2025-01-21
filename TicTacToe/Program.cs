@@ -33,9 +33,24 @@ namespace TicTacToe
                     IsHumanTurn = true; // Switch to human player
                 }
 
-                // Break condition (e.g., win/tie) to be added
-            }
+                // Check for a winner or a tie after each move
+                string winner = board.CheckWinner();
+                if (winner != null)
+                {
+                    board.Display();
+                    Console.WriteLine($"The winner is: {winner}\n");
+                    break; // End the game
+                }
+                else if (board.IsTie())
+                {
+                    board.Display();
+                    Console.WriteLine("It's a tie!");
+                    break; // End the game
+                }
+                
+                    
+                }
 
-        }
+            }
     }
 }

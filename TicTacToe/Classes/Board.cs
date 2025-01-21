@@ -21,7 +21,7 @@ namespace TicTacToe.Classes
         /// </summary>
         public void Display()
         {
-            Console.WriteLine("  0   1   2"); // Print column numbers
+            Console.WriteLine("0   1   2"); // Print column numbers
             for (int row = 0; row < 3; row++)
             {
                 for (int col = 0; col < 3; col++)
@@ -51,15 +51,6 @@ namespace TicTacToe.Classes
             {
                 return false;
             }
-
-            // Check if the move has already been played
-            foreach (var move in MovesPlayed)
-            {
-                if (move[0] == row && move[1] == col)
-                {
-                    return false;
-                }
-            }
             return true;
         }
 
@@ -73,6 +64,56 @@ namespace TicTacToe.Classes
         {
             grid[row, col] = PlayerSymbol;
             MovesPlayed.Add(new int[] { row, col }); // Add the move to the list
+        }
+
+        /// <summary>
+        /// Checks if there is a winner on the board
+        /// </summary>  
+        /// <returns>The winning symbol ("X" or "O") if a winner exists, null otherwise.</returns>
+        public string CheckWinner()
+        {
+            //Check rows and columns for a winner
+            for (int row = 0; row < 3; row++)
+            {
+                // Check rows
+                if (!string.IsNullOrEmpty(grid[row, 0]) && grid[row, 0] == grid[row, 1] && grid[row, 1] == grid[row, 2])
+                {
+                    return grid[row, 0];
+                }
+                // Check columns
+                if (!string.IsNullOrEmpty(grid[0, row]) && grid[0, row] == grid[1, row] && grid[1, row] == grid[2, row])
+                {
+                    return grid[0, row];
+                }
             }
+
+            // Check diagonals for a winner
+            if (!string.IsNullOrEmpty(grid[0, 0]) && grid[0, 0] == grid[1, 1] && grid[1, 1] == grid[2, 2])
+            {
+                return grid[0, 0];
+            }
+            if (!string.IsNullOrEmpty(grid[0, 2]) && grid[0, 2] == grid[1, 1] && grid[1, 1] == grid[2, 0])
+            {
+                return grid[0, 2];
+            }
+            // No winner found
+            return null;
+        }
+
+        /// <summary>
+        /// Checks if the board is full, resulting in a tie
+        /// </summary>
+        /// <returns>True if the board is full, false otherwise.</returns>
+        public bool IsTie()
+        {
+            foreach (var cell in grid)
+            {
+                if (string.IsNullOrEmpty(cell))
+                {
+                    return false; // If any cell is empty, the game is not a tie
+                }
+            }
+            return true; // All cells are filled, the game is a tie
         }
     }
+}
